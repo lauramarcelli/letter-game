@@ -1,53 +1,84 @@
-#1. El objetivo consiste en desarrollar el juego interactivo “adivina la palabra”.
-#2. El funcionamiento esperado es el siguiente:
-#3. Al ejecutar el programa se mostrará por pantalla una palabra oculta usando tantos guiones como letras contiene
-#la palabra a adivinar(la palabra a adivinar será elegida por el programa usando el módulo de Python random), la
-#cantidad de vidas con las que cuenta el jugador y las cantidad de letras incorrectas que va ingresando.
-#4. Cuando el jugador ingresa una letra es necesario que se valide el dato (que sea una letra). Luego de validar la
-#letra ingresada se corrobora si la letra ingresada pertenece a alguna de las letras de la palabra a adivinar.
-#5. Cada vez que el jugador ingrese una letra que NO pertenece a la palabra a adivinar se restará una vida.
-#6. El juego finaliza cuando el jugador queda sin vidas, cuando adivina todas las letras de la palabra o cuando
-#selecciona no jugar más. Para todos los casos se debe mostrar un mensaje indicando si ganó la partida o si perdió.
-
+import tkinter as tk
 import random
 
-words = ["python", "java", "c++", "javascript", "ruby"]
+words = ["python", "java", "php", "javascript", "ruby"]
 word = random.choice(words)
-lives = 6
 wrong_letters = []
 guess_word = ["_" for _ in word]
+lives = 6
+
+def play():
+    global lives
+    
+    if lives > 0 and "_" in guess_word:
+
+        label_word.config(text=f"Palabra: {' '.join(guess_word)}")
+        label_lives.config(text=f"Vidas restantes: {lives}")
+        label_wrong.config(text=f"Letras incorectas: {', '.join(wrong_letters)}")
+        guess = entry_guess.get().lower()
+        entry_guess.delete(0, tk.END)
+
+        if len(guess) !=1 or not guess.isalpha():
+            label_wrong.config(text="Error: Ingrese una sola letra ")
+
+        if guess in guess_word:
+            label_wrong.config(text="Ya ingresaste esa letra")
+
+        if guess in word:
+            label_wrong.config(text="Bien hecho!")
+            for l in range(len(word)):
+                if word[l] == guess:
+                    guess_word[l] = guess
+        else:
+            label_wrong.config(text="Letra incorrecta")
+            lives -= 1
+            wrong_letters.append(guess)
+
+        if "_" not in guess_word:
+            label_wrong.config(text="Felicidades, adivinaste la palabra")
+
+        if lives == 0:
+            label_wrong.config(text="Lo siento, perdiste")
+            label_word.config(text=f"La palabra era: {word}")
+         
+
+#ventana
+root = tk.Tk()
+root.title("Adivina la palabra")
+root.geometry("400x300")
 
 
-while lives > 0 and "_" in guess_word:
-    print(f"Palabra: {' '.join(guess_word)}")
-    print(f"Vidas restantes: {lives}")
-    print(f"Letras incorectas: {', '.join(wrong_letters)}")
-    guess = input("Ingrese una letra: ").lower()
+#labels
+label_word = tk.Label(root, text="Palabra:____")
+label_word.pack()
+label_word.config(font=("Arial", 16))
+label_word.config(fg="blue")
+label_word.pack(padx=10, pady=10)
 
-    if len(guess) !=1 or not guess.isalpha():
-        print("Error: Ingrese una sola letra ")
-        continue
+label_lives = tk.Label(root, text="Vidas: 6")
+label_lives.pack()
+label_lives.config(font=("Arial", 16))
+label_lives.config(fg="blue")
+label_lives.pack(padx=10, pady=10)
 
-    if guess in guess_word:
-        print("Ya ingresaste esa letra")
-        continue
+label_wrong = tk.Label(root, text="Incorrectas: ")
+label_wrong.pack()
+label_wrong.config(font=("Arial", 16))
+label_wrong.config(fg="blue")
+label_wrong.pack(padx=10, pady=10)
 
-    if guess in word:
-        print("Bien hecho!")
-        for l in range(len(word)):
-            if word[l] == guess:
-                guess_word[l] = guess
-    else:
-        print("Letra incorrecta")
-        lives -= 1
-        wrong_letters.append(guess)
+#entrada
+entry_guess = tk.Entry(root)
+entry_guess.pack()
+entry_guess.config(font=("Arial", 16))
+entry_guess.config(fg="blue")
+entry_guess.pack(padx=10, pady=10)
 
-    if "_" not in guess_word:
-        print("Felicidades, adivinaste la palabra")
-        break
+#boton
+button_play = tk.Button(root, text="jugar", command=play)
+button_play.pack()
+button_play.config(font=("Arial", 16))
+button_play.config(fg="blue")
+button_play.pack(padx=10, pady=10)        
 
-    if lives == 0:
-        print("Lo siento, perdiste")
-        print(f"La palabra era: {word}")
-
-        
+root.mainloop()
