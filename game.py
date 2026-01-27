@@ -18,5 +18,36 @@ wrong_letters = []
 guess_word = ["_" for _ in word]
 
 
-while True:
-    
+while lives > 0 and "_" in guess_word:
+    print(f"Palabra: {' '.join(guess_word)}")
+    print(f"Vidas restantes: {lives}")
+    print(f"Letras incorectas: {', '.join(wrong_letters)}")
+    guess = input("Ingrese una letra: ").lower()
+
+    if len(guess) !=1 or not guess.isalpha():
+        print("Error: Ingrese una sola letra ")
+        continue
+
+    if guess in guess_word:
+        print("Ya ingresaste esa letra")
+        continue
+
+    if guess in word:
+        print("Bien hecho!")
+        for l in range(len(word)):
+            if word[l] == guess:
+                guess_word[l] = guess
+    else:
+        print("Letra incorrecta")
+        lives -= 1
+        wrong_letters.append(guess)
+
+    if "_" not in guess_word:
+        print("Felicidades, adivinaste la palabra")
+        break
+
+    if lives == 0:
+        print("Lo siento, perdiste")
+        print(f"La palabra era: {word}")
+
+        
