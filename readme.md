@@ -23,6 +23,11 @@ La interfaz gráfica fue desarrollada utilizando **Tkinter** e incluye:
 - Lista de letras incorrectas
 - Campo de texto para ingresar letras
 - Botón para jugar cada turno
+- Botón para jugar de nuevo
+
+![Pantalla principal del juego](./screenshots/main_secreen.png)
+![Pantalla 2 del juego](./screenshots/success_secreen.png) 
+![Pantalla 3 del juego](./screenshots/lose_secreen.png)   
 
 La interacción se realiza mediante eventos, sin uso de bucles infinitos
 
@@ -44,6 +49,12 @@ Tener instalado:
 
 - Python
 - Tkinter
+
+En sistemas basados en Ubuntu:
+
+```bash
+sudo apt update
+sudo apt install python3 python3-tk
 
 ### Ejecutar en consola
 
