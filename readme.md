@@ -47,7 +47,7 @@ Tener instalado:
 
 ### Ejecutar en consola
 
-python3 main.py
+python3 game.py
 
 
 ## 🎯 Objetivos del proyecto
